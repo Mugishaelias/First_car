@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Orbitron', monospace;
+    overflow: hidden;
+  }
+
+  #gameWrapper {
+    position: relative;
+    width: 420px;
+    height: 600px;
+    border: 2px solid #ff4400;
+    box-shadow: 0 0 40px rgba(255,68,0,0.4), inset 0 0 40px rgba(0,0,0,0.8);
+    overflow: hidden;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- OVERLAYS ---- */
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(5,5,10,0.92);
+    z-index: 10;
+    transition: opacity 0.3s;
+  }
+  .overlay.hidden { display: none; }
+
+  .logo {
+    font-size: 52px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #fff;
+    text-shadow: 0 0 20px #ff4400, 0 0 40px #ff4400;
+    line-height: 1;
+  }
+  .logo span { color: #ff4400; }
+
+  .tagline {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: #888;
+    margin-top: 8px;
+    text-transform: uppercase;
+  }
+
+  .divider {
+    width: 200px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff4400, transparent);
+    margin: 28px 0;
+  }
+
+  .score-display {
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: #666;
+    margin-bottom: 6px;
+  }
+  .score-big {
+    font-size: 42px;
+    font-weight: 700;
+    color: #ff4400;
+    text-shadow: 0 0 15px rgba(255,68,0,0.5);
+    margin-bottom: 4px;
+  }
+  .high-score-line {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #555;
+    margin-bottom: 28px;
+  }
+  .high-score-line span { color: #ff8844; }
+
+  .btn {
+    background: transparent;
+    border: 2px solid #ff4400;
+    color: #ff4400;
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    padding: 14px 40px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #ff4400;
+    transform: translateX(-100%);
+    transition: transform 0.2s;
+    z-index: -1;
+  }
+  .btn:hover::before { transform: translateX(0); }
+  .btn:hover { color: #000; }
+
+  .controls-hint {
+    position: absolute;
+    bottom: 20px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    color: #444;
+    letter-spacing: 2px;
+    text-align: center;
+    line-height: 1.8;
+  }
+  .controls-hint span { color: #666; }
+
+  /* ---- HUD ---- */
+  #hud {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .hud-box {
+    background: rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,68,0,0.3);
+    padding: 6px 12px;
+    text-align: center;
+  }
+  .hud-label {
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #666;
+  }
+  .hud-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff4400;
+  }
+
+  /* Speedometer */
+  #speedoBox {
+    position: absolute;
+    bottom: 12px; right: 12px;
+    z-index: 5;
+    pointer-events: none;
+  }
+  #speedoCanvas { display: block; }
+
+  /* Nitro bar */
+  #nitroBar {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    z-index: 5;
+    pointer-events: none;
+    width: 80px;
+  }
+  .nitro-label {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #0af;
+    margin-bottom: 4px;
+  }
+  #nitroTrack {
+    width: 100%;
+    height: 6px;
+    background: rgba(0,170,255,0.15);
+    border: 1px solid rgba(0,170,255,0.3);
+  }
+  #nitroFill {
+    height: 100%;
+    background: linear-gradient(90deg, #0af, #0ff);
+    transition: width 0.1s;
+    box-shadow: 0 0 8px #0af;
+  }
+
+  /* Pause indicator */
+  #pauseHint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #ff4400;
+    text-shadow: 0 0 20px #ff4400;
+    z-index: 8;
+    display: none;
+  }
+
+  /* Mobile touch buttons */
+  #touchControls {
+    position: absolute;
+    bottom: 60px; left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 20px;
+    z-index: 6;
+  }
+  .touch-btn {
+    width: 52px; height: 52px;
+    background: rgba(255,68,0,0.15);
+    border: 1px solid rgba(255,68,0,0.4);
+    color: #ff4400;
+    font-size: 20px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    border-radius: 4px;
+  }
+  @media (pointer: coarse) {
+    #touchControls { display: flex; }
+  }

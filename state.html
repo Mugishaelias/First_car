@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVERDRIVE — Car Racing Game</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div id="gameWrapper">
+  <canvas id="gameCanvas" width="420" height="600"></canvas>
+
+  <!-- HUD (shown during gameplay) -->
+  <div id="hud" class="hidden">
+    <div class="hud-box">
+      <div class="hud-label">SCORE</div>
+      <div class="hud-value" id="scoreDisplay">0</div>
+    </div>
+    <div class="hud-box">
+      <div class="hud-label">BEST</div>
+      <div class="hud-value" id="hiScoreDisplay">0</div>
+    </div>
+  </div>
+
+  <!-- Speedometer -->
+  <div id="speedoBox" class="hidden">
+    <canvas id="speedoCanvas" width="80" height="80"></canvas>
+  </div>
+
+  <!-- Nitro bar -->
+  <div id="nitroBar" class="hidden">
+    <div class="nitro-label">⚡ NITRO</div>
+    <div id="nitroTrack"><div id="nitroFill" style="width:100%"></div></div>
+  </div>
+
+  <!-- Pause text -->
+  <div id="pauseHint">PAUSED</div>
+
+  <!-- Touch controls -->
+  <div id="touchControls">
+    <div class="touch-btn" id="touchLeft">◀</div>
+    <div class="touch-btn" id="touchNitro">⚡</div>
+    <div class="touch-btn" id="touchRight">▶</div>
+  </div>
+
+  <!-- START SCREEN -->
+  <div class="overlay" id="startScreen">
+    <div class="logo">OVER<span>DRIVE</span></div>
+    <div class="tagline">High-speed street racing</div>
+    <div class="divider"></div>
+    <button class="btn" id="startBtn">START ENGINE</button>
+    <div class="controls-hint">
+      <span>← → or A D</span> · STEER &nbsp;|&nbsp; <span>SHIFT</span> · NITRO<br>
+      <span>P</span> · PAUSE &nbsp;|&nbsp; <span>SPACE</span> · BRAKE
+    </div>
+  </div>
+
+  <!-- GAME OVER SCREEN -->
+  <div class="overlay hidden" id="gameOverScreen">
+    <div class="logo" style="font-size:36px">GAME<span> OVER</span></div>
+    <div class="divider"></div>
+    <div class="score-display">YOUR SCORE</div>
+    <div class="score-big" id="finalScore">0</div>
+    <div class="high-score-line">BEST: <span id="finalHiScore">0</span></div>
+    <button class="btn" id="restartBtn">RESTART</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
